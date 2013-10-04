@@ -1,15 +1,10 @@
 package com.devsmart;
 
-import android.content.Context;
-import android.os.Handler;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ThreadUtils {
 
 	
-	private Handler mMainThread;
-
-	public ThreadUtils(Context context) {
-
-		mMainThread = new Handler();
-	}
+	public static final ExecutorService sIOThreads = Executors.newCachedThreadPool();
 }
