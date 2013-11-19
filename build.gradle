@@ -11,8 +11,16 @@ buildscript {
 apply plugin: 'android-library'
 apply plugin: 'eclipse'
 
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
+
 android {
-    buildToolsVersion "17.0"
+    buildToolsVersion "19.0.0"
     compileSdkVersion 10
     sourceSets {
         main {
@@ -29,10 +37,4 @@ android {
     }
 }
 
-repositories {
-  mavenCentral()
-}
 
-dependencies {
-
-}
