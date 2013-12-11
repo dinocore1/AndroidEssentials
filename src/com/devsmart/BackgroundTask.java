@@ -62,7 +62,7 @@ public abstract class BackgroundTask implements Runnable {
 			doOnBefore();
 			waitForStage();
 			onBackground();
-		} catch(InterruptedException e){
+		} catch(Throwable e){
 			Log.e("", "BackgroundTask interrupted", e);
 		} finally {
 			mMainThreadHandler.post(new Runnable(){
