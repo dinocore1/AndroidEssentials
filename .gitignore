@@ -5,3 +5,4 @@ bin/
 .project
 .gradle/
 build/
+*.iml
