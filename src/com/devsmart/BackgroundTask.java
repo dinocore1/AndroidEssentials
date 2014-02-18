@@ -9,7 +9,8 @@ import android.util.Log;
 
 public abstract class BackgroundTask implements Runnable {
 
-	public static Future<?> runBackgroundTask(BackgroundTask task, ExecutorService service){
+
+    public static Future<?> runBackgroundTask(BackgroundTask task, ExecutorService service){
 		task.mMainThreadHandler = new Handler(Looper.getMainLooper());
 		return service.submit(task);
 	}
@@ -28,6 +29,7 @@ public abstract class BackgroundTask implements Runnable {
 	public void onAfter() {}
 
 	private boolean mIsWaiting = true;
+    private boolean mCanceled = false;
 
 	private synchronized void waitForStage() throws InterruptedException {
 		while(mIsWaiting){
@@ -59,19 +61,31 @@ public abstract class BackgroundTask implements Runnable {
 	public final void run() {
 
 		try {
-			doOnBefore();
-			waitForStage();
-			onBackground();
+            if(!mCanceled) {
+			    doOnBefore();
+            }
+            if(!mCanceled) {
+			    waitForStage();
+            }
+            if(!mCanceled) {
+			    onBackground();
+            }
 		} catch(Throwable e){
 			Log.e("", "BackgroundTask interrupted", e);
 		} finally {
 			mMainThreadHandler.post(new Runnable(){
 				@Override
 				public void run() {
-					onAfter();
+                if(!mCanceled){
+                    onAfter();
+                }
 				}
 			});
 		}
 	}
+
+    public void cancel() {
+        mCanceled = true;
+    }
 
 }
