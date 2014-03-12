@@ -4,12 +4,19 @@ import android.os.Handler;
 
 public class LightweightTimer {
 
-    private Handler mHandler = new Handler();
+    private Handler mHandler;
     private Runnable mOnTickCallback = null;
     private long mInterval;
     private boolean mRunning = false;
 
     public LightweightTimer(Runnable r, long millisec) {
+        mHandler = new Handler();
+        setOnTick(r);
+        setInterval(millisec);
+    }
+
+    public LightweightTimer(Runnable r, long millisec, Handler handler) {
+        mHandler = handler;
         setOnTick(r);
         setInterval(millisec);
     }
